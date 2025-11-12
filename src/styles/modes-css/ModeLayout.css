@@ -1,4 +1,14 @@
 
+.mode-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  padding: var(--space-2);
+  box-sizing: border-box;
+}
+
 .mode-layout-container {
   width: 100%;
   max-width: 1000px;
@@ -7,7 +17,6 @@
   padding: var(--space-4);
   flex: 1;
   box-sizing: border-box;
- 
 }
 
 

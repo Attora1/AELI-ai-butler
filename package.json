@@ -4,11 +4,17 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "start": "npm run dev",
+        "start": "npm run dev:clean",
         "dev": "vite --config src/vite.config.js",
+        "dev:clean": "vite --config vite-clean.config.js",
+        "dev:original": "vite",
         "build": "vite build --config src/vite.config.js",
+        "build:clean": "vite build --config vite-clean.config.js",
+        "build:original": "vite build",
         "lint": "eslint --config src/eslint.config.js \"src/**/*.js\" \"src/**/*.jsx\" --ignore-pattern \"src/dist/\"",
-        "preview": "vite preview --config src/vite.config.js"
+        "preview": "vite preview --config src/vite.config.js",
+        "preview:clean": "vite preview --config vite-clean.config.js",
+        "serve": "netlify dev"
     },
     "dependencies": {
         "@supabase/supabase-js": "^2.55.0",

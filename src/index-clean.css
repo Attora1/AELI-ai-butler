@@ -1,0 +1,19 @@
+/* Clean CSS Reset - No external dependencies */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* The styles are injected by main-clean.jsx, so this file is minimal */

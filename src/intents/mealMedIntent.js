@@ -3,6 +3,7 @@
 // Returns true if handled so caller can `return;`.
 
 import { normalizeInput } from '../utils/normalizeInput.js';
+import { createMessage } from '../utils/messageHelpers.js';
 
 export async function mealMedIntent({ input, settings, setMessages, setInput }) {
   const raw = (input || '').trim();
@@ -42,22 +43,22 @@ export async function mealMedIntent({ input, settings, setMessages, setInput }) 
 
       setMessages(prev => [
         ...prev,
-        { isUser: true, text: raw },
-        { isUser: false, text: `Logged ${what} just now.` }
+        createMessage({ isUser: true, text: raw }),
+        createMessage({ isUser: false, text: `Logged ${what} just now.` })
       ]);
     } else {
       setMessages(prev => [
         ...prev,
-        { isUser: true, text: raw },
-        { isUser: false, text: `Couldn't update wellness (${data?.error || res.status}).` }
+        createMessage({ isUser: true, text: raw }),
+        createMessage({ isUser: false, text: `Couldn't update wellness (${data?.error || res.status}).` })
       ]);
     }
   } catch (err) {
     console.error('[mealMedIntent] failed:', err);
     setMessages(prev => [
       ...prev,
-      { isUser: true, text: raw },
-      { isUser: false, text: 'Network hiccup updating wellness.' }
+      createMessage({ isUser: true, text: raw }),
+      createMessage({ isUser: false, text: 'Network hiccup updating wellness.' })
     ]);
   }
 

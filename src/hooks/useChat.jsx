@@ -7,6 +7,7 @@ import { initTimeContext, markUserMessage, markAeliMessage, getTimeSnapshot } fr
 import { noteUserInput, learnFromCorrection } from '../state/lexicon.js';
 import { learnPrefsFromInput } from '../state/prefs.js';
 import { getAwareness } from '../awareness/awareness.js';
+import { addMessage, addMessages } from '../utils/messageHelpers.js';
 
 export function useChat(
   settings,
@@ -37,8 +38,8 @@ export function useChat(
         const response = await fetch(`/api/chat-history?userId=${encodeURIComponent(userId)}`);
         const data = await response.json().catch(() => ({}));
         const history = Array.isArray(data?.history)
-          ? data.history
-          : (Array.isArray(data) ? data : []);
+          ? data.history.map(msg => ({ ...msg, id: msg.id || crypto.randomUUID() }))
+          : (Array.isArray(data) ? data.map(msg => ({ ...msg, id: msg.id || crypto.randomUUID() })) : []);
         if (response.ok && history) setMessages(history);
       } catch (err) {
         console.warn('[chat-history] skip:', err?.message || err);
@@ -99,7 +100,10 @@ export function useChat(
       } catch (e) {
         console.error('[lazy wellnessIntent] load failed:', e);
         // Fall back so the chat doesn’t hard-crash:
-        setMessages(prev => [...prev, { text: "I'm having trouble loading wellness tools right now. Try again in a moment.", isUser: false }]);
+        addMessage(setMessages, {
+          text: "I'm having trouble loading wellness tools right now. Try again in a moment.",
+          isUser: false
+        });
       }
       if (handled) return; // only return if actually handled
     }
@@ -117,7 +121,10 @@ export function useChat(
       } catch (e) {
         console.error('[lazy mealMedIntent] load failed:', e);
         // Fall back so the chat doesn’t hard-crash:
-        setMessages(prev => [...prev, { text: "I'm having trouble loading the meal/med tools right now. Try again in a moment.", isUser: false }]);
+        addMessage(setMessages, {
+          text: "I'm having trouble loading the meal/med tools right now. Try again in a moment.",
+          isUser: false
+        });
       }
       if (handled) return;
     }
@@ -155,15 +162,15 @@ export function useChat(
 
           setMessages(prev => [
             ...prev,
-            { isUser: true, text: input.trim() },
-            { isUser: false, text: parts.join(' · ') }
+            { id: crypto.randomUUID(), isUser: true, text: input.trim(), timestamp: Date.now() },
+            { id: crypto.randomUUID(), isUser: false, text: parts.join(' · '), timestamp: Date.now() }
           ]);
         } catch (err) {
           console.error('[version/update intent] failed:', err);
           setMessages(prev => [
             ...prev,
-            { isUser: true, text: input.trim() },
-            { isUser: false, text: 'Update check failed.' }
+            { id: crypto.randomUUID(), isUser: true, text: input.trim(), timestamp: Date.now() },
+            { id: crypto.randomUUID(), isUser: false, text: 'Update check failed.', timestamp: Date.now() }
           ]);
         }
 
@@ -417,7 +424,10 @@ export function useChat(
       addFact(rememberMatch[2]);
     }
 
-    setMessages(prev => [...prev, { text: input, isUser: true }]);
+    addMessage(setMessages, {
+      text: input,
+      isUser: true
+    });
     setInput('');
 
     if (conversationEnders.includes(lowerCaseInput)) {
@@ -454,7 +464,10 @@ export function useChat(
 
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        setMessages(prev => [...prev, { text: styleGovernor("♦cough♦ Technical difficulties, friend.", { userName: settings?.name || 'Nessa', recentAiTexts: prev.filter(m => !m.isUser).map(m => m.text) }), isUser: false }]);
+        addMessage(setMessages, {
+          text: styleGovernor("♦cough♦ Technical difficulties, friend.", { userName: settings?.name || 'Nessa', recentAiTexts: messages.filter(m => !m.isUser).map(m => m.text) }),
+          isUser: false
+        });
         markAeliMessage(settings?.userId || 'defaultUser');
         return;
       }
@@ -468,13 +481,19 @@ export function useChat(
         "";
 
       if (aiText) {
-        setMessages(prev => [...prev, { text: styleGovernor(aiText, { userName: settings?.name || 'Nessa', recentAiTexts: prev.filter(m => !m.isUser).map(m => m.text) }), isUser: false }]);
+        addMessage(setMessages, {
+          text: styleGovernor(aiText, { userName: settings?.name || 'Nessa', recentAiTexts: messages.filter(m => !m.isUser).map(m => m.text) }),
+          isUser: false
+        });
       }
       markAeliMessage(settings?.userId || 'defaultUser');
 
     } catch (error) {
       console.error('[AELI Chat Error]', error);
-      setMessages(prev => [...prev, { text: styleGovernor("♦cough♦ Technical difficulties, madam.", { userName: settings?.name || 'Nessa', recentAiTexts: prev.filter(m => !m.isUser).map(m => m.text) }), isUser: false }]);
+      addMessage(setMessages, {
+        text: styleGovernor("♦cough♦ Technical difficulties, madam.", { userName: settings?.name || 'Nessa', recentAiTexts: messages.filter(m => !m.isUser).map(m => m.text) }),
+        isUser: false
+      });
       markAeliMessage(settings?.userId || 'defaultUser');
     } finally {
       setIsResponding(false);

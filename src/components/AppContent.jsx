@@ -1,42 +1,118 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/App.css';
 
-import { useFacts } from '../hooks/useFacts.js';
-import { useSettings } from '../hooks/useSettings.js';
 import { useChat } from '../hooks/useChat.jsx';
 import { usePersistentTimerPolling } from '../hooks/useTimer.js';
 
 import MessageList from './Chat/MessageList.jsx';
 import ChatInput from './Chat/ChatInput.jsx';
+import ChatInterface from './Chat/ChatInterface.jsx';
 import WakeUpInput from './Chat/WakeUpInput.jsx';
 import SettingsModal from './SettingsModal.jsx';
 import HealthProfileEditor from './HealthProfileEditor.jsx';
+import Header from './Header/Header.jsx';
+import BackgroundEffects from './BackgroundEffects.jsx';
 import { STORAGE_KEY } from '../constants.js';
-import { useSpoons } from '../context/useSpoons.js'; // Corrected import
+import { useApp } from '../context/useApp.js';
 import { getMoodReflection } from '../utils/introAndMood.js';
 import { composeMemoryEntries } from '../utils/memoriesBridge.js';
-import { useMode } from '../context/useMode.js'; // Corrected import
 import ModeRouter from './ModeRouter.jsx';
 
-export default function AppContent() { // Added comment to force change
-  const { mode } = useMode();
+export default function AppContent() {
+  const { mode, spoons, settings, setSettings, facts, addFact, clearFacts } = useApp();
   const [showFacts, setShowFacts] = useState(false);
-  const { facts, addFact, clearFacts } = useFacts();
-  const { settings, setSettings } = useSettings();
-  const { spoons, spoonMax } = useSpoons();
   const [poweredDown, setPoweredDown] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const { messages, setMessages, input, setInput, isResponding, handleSubmit } = useChat(settings, setSettings, facts, addFact, spoons, poweredDown, setPoweredDown);
+  // Add error handling for chat hook
+  const chatHookResult = useChat(settings, setSettings, facts, addFact, spoons, poweredDown, setPoweredDown) || {};
+  const { messages, setMessages, input, setInput, isResponding, handleSubmit } = chatHookResult || {};
 
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [inactivityMessageSent, setInactivityMessageSent] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [hpOpen, setHpOpen] = useState(false);
-  usePersistentTimerPolling(setMessages, poweredDown, settings);
+  
+  // Add error handling for timer polling
+  try {
+    usePersistentTimerPolling(setMessages, poweredDown, settings);
+  } catch (error) {
+    console.warn('Timer polling hook error:', error);
+  }
+
+  // Enhanced button handlers with error handling
+  const handleClearMemory = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      if (setMessages) {
+        setMessages([]);
+      }
+      console.log('Memory cleared successfully');
+    } catch (error) {
+      console.error('Error clearing memory:', error);
+    }
+  };
+
+  const handleToggleFacts = () => {
+    try {
+      setShowFacts(prev => !prev);
+      console.log('Facts visibility toggled');
+    } catch (error) {
+      console.error('Error toggling facts:', error);
+    }
+  };
+
+  const handleClearFacts = () => {
+    try {
+      if (clearFacts) {
+        clearFacts();
+        console.log('Facts cleared successfully');
+      }
+    } catch (error) {
+      console.error('Error clearing facts:', error);
+    }
+  };
+
+  const handleVoiceToggle = () => {
+    try {
+      if (setSettings) {
+        setSettings(prev => ({ ...prev, voiceEnabled: !prev.voiceEnabled }));
+        console.log('Voice toggled:', !settings.voiceEnabled);
+      }
+    } catch (error) {
+      console.error('Error toggling voice:', error);
+    }
+  };
+
+  const handleShowSettings = () => {
+    try {
+      setShowSettings(true);
+      console.log('Settings modal opened');
+    } catch (error) {
+      console.error('Error opening settings:', error);
+    }
+  };
+
+  const handleHealthProfileOpen = () => {
+    try {
+      setHpOpen(true);
+      console.log('Health profile editor opened');
+    } catch (error) {
+      console.error('Error opening health profile:', error);
+    }
+  };
 
   useEffect(() => {
+    // Preserve scroll position when mode changes
+    const scrollY = window.scrollY;
     document.body.setAttribute('data-mode', mode);
+    
+    // Restore scroll position after a brief delay to allow layout changes
+    const timer = setTimeout(() => {
+      window.scrollTo(0, scrollY);
+    }, 10);
+    
+    return () => clearTimeout(timer);
   }, [mode]);
 
   useEffect(() => {
@@ -56,11 +132,11 @@ export default function AppContent() { // Added comment to force change
     };
 
     const checkInactivity = () => {
-      if (Date.now() - lastActivityTime > INACTIVITY_THRESHOLD && !inactivityMessageSent) {
+      if (Date.now() - lastActivityTime > INACTIVITY_THRESHOLD && !inactivityMessageSent && setMessages) {
         const inactivityMessages = [
-          "It appears you’ve either stepped away or achieved the rare miracle of sleep. Signal me when you return, and we’ll pick up where we left off.",
-          "You’ve gone quiet—either you’ve stepped away or slipped too deep into the feed. Let me know when you’re back, and we’ll carry on.",
-          "You’ve gone quiet—either you’ve stepped away or been pulled into something shiny. Ping me when you’re back, and we’ll continue.",
+          "It appears you've either stepped away or achieved the rare miracle of sleep. Signal me when you return, and we'll pick up where we left off.",
+          "You've gone quiet—either you've stepped away or slipped too deep into the feed. Let me know when you're back, and we'll carry on.",
+          "You've gone quiet—either you've stepped away or been pulled into something shiny. Ping me when you're back, and we'll continue.",
         ];
         const randomMessage = inactivityMessages[Math.floor(Math.random() * inactivityMessages.length)];
         setMessages(prev => [...prev, { isUser: false, text: `[AELI] ${randomMessage}` }]);
@@ -83,7 +159,7 @@ export default function AppContent() { // Added comment to force change
 
   useEffect(() => {
     async function fetchInitialWeather() {
-      if (settings.enableWeather && settings.zip) {
+      if (settings?.enableWeather && settings?.zip) {
         try {
           const response = await fetch(`/api/weather?zip=${settings.zip}`);
           const weather = await response.json();
@@ -98,61 +174,81 @@ export default function AppContent() { // Added comment to force change
       }
     }
     fetchInitialWeather();
-  }, [settings.zip, settings.enableWeather]);
+  }, [settings?.zip, settings?.enableWeather]);
 
   useEffect(() => {
     const hasSeen = localStorage.getItem("AELI_INTRO_SHOWN") === "true";
 
     if (
       !hasSeen &&
-      settings.nameFormal &&
-      settings.tone &&
-      settings.mood &&
-      messages.length > 0
+      settings?.nameFormal &&
+      settings?.tone &&
+      settings?.mood &&
+      messages?.length > 0 &&
+      setMessages
     ) {
-      const moodLine = getMoodReflection(settings.mood);
-      const line = `[AELI] Ah, ${settings.nameFormal}. Pleasure to make your acquaintance. I see you prefer a ${settings.tone} conversation. ${moodLine}`;
-      setMessages((prev) => [...prev, { isUser: false, text: line }]);
-      localStorage.setItem("AELI_INTRO_SHOWN", "true");
+      try {
+        const moodLine = getMoodReflection(settings.mood);
+        const line = `[AELI] Ah, ${settings.nameFormal}. Pleasure to make your acquaintance. I see you prefer a ${settings.tone} conversation. ${moodLine}`;
+        setMessages((prev) => [...prev, { isUser: false, text: line }]);
+        localStorage.setItem("AELI_INTRO_SHOWN", "true");
+      } catch (error) {
+        console.error('Error showing intro:', error);
+      }
     }
-  }, [settings, messages.length, setMessages]);
+  }, [settings, messages?.length, setMessages]);
+
+  // Safe memory entries composition
+  let memoryEntries = [];
+  const spoonMax = 12; // Define spoonMax
+  try {
+    memoryEntries = composeMemoryEntries({ spoons, spoonMax });
+  } catch (error) {
+    console.error('Error composing memory entries:', error);
+    memoryEntries = [];
+  }
 
   return (
     <>
+      <BackgroundEffects />
+      <Header onSettingsClick={handleShowSettings} />
       <div className={`App ${mode}-theme`}>
         <div className="main-content">
           <div className="header-buttons">
-            <button onClick={() => setShowSettings(true)} className="settings-button btn">
+            <button 
+              onClick={handleShowSettings} 
+              className="settings-button btn"
+              title="Open Settings"
+            >
               ⚙️
             </button>
             <button
-              onClick={() => {
-                localStorage.removeItem(STORAGE_KEY);
-                setMessages([]);
-              }}
+              onClick={handleClearMemory}
               className="clear-memory-button btn"
+              title="Clear Chat Memory"
             >
               Clear Memory
             </button>
             <button
-              onClick={() => setShowFacts(f => !f)}
-              className="show-facts-button  btn"
+              onClick={handleToggleFacts}
+              className="show-facts-button btn"
+              title="Toggle Memory Display"
             >
               {showFacts ? "Hide Memories" : "Show Memories"}
             </button>
             <button
-              onClick={clearFacts}
+              onClick={handleClearFacts}
               className="clear-facts-button btn"
+              title="Clear All Memories"
             >
               Clear Memories
             </button>
             <button
-              onClick={() =>
-                setSettings(prev => ({ ...prev, voiceEnabled: !prev.voiceEnabled }))
-              }
+              onClick={handleVoiceToggle}
               className="voice-toggle-button btn"
+              title="Toggle Voice Output"
             >
-              {settings.voiceEnabled ? "🔈 Voice On" : "🔇 Voice Off"}
+              {settings?.voiceEnabled ? "🔈 Voice On" : "🔇 Voice Off"}
             </button>
           </div>
 
@@ -160,10 +256,16 @@ export default function AppContent() { // Added comment to force change
             {showFacts && (
               <div className="memory-facts" style={{ background: '#feffe8', border: '1px solid #eee', margin: '8px', padding: '8px' }}>
                 <b>My Memories:</b>
-                <button onClick={() => setHpOpen(true)} className="btn small">Edit Health Profile</button>
+                <button 
+                  onClick={handleHealthProfileOpen} 
+                  className="btn small"
+                  title="Edit Health Profile"
+                >
+                  Edit Health Profile
+                </button>
 
                 {/* Wellness snapshot at the top */}
-                {composeMemoryEntries({ spoons, spoonMax }).map((entry, idx) => (
+                {memoryEntries.map((entry, idx) => (
                   <section key={`wellness-${idx}`} className="memory-block">
                     <h4>{entry.title}</h4>
                     <pre className="memory-pre" style={{ whiteSpace: 'pre-wrap' }}>
@@ -173,7 +275,7 @@ export default function AppContent() { // Added comment to force change
                 ))}
 
                 {/* Your existing facts render */}
-                {facts.map((f, i) => (
+                {facts?.map((f, i) => (
                   <section key={i} className="memory-block">
                     <p>{typeof f === 'string' ? f : String(f)}</p>
                   </section>
@@ -181,28 +283,22 @@ export default function AppContent() { // Added comment to force change
                 <HealthProfileEditor open={hpOpen} onClose={() => setHpOpen(false)} />
               </div>
             )}
-            <div className="messages">
-              <MessageList messages={messages} settings={settings} poweredDown={poweredDown} />
-            </div>
-            {poweredDown ? (
-              <WakeUpInput
-                input={input}
-                setInput={setInput}
-                onWakeUp={handleSubmit}
-              />
-            ) : (
-              <ChatInput
-                input={input}
-                setInput={setInput}
-                onSubmit={handleSubmit}
-                disabled={isResponding}
-              />
-            )}
+            <ChatInterface 
+              messages={messages} 
+              setMessages={setMessages} 
+              input={input} 
+              setInput={setInput} 
+              isResponding={isResponding} 
+              handleSubmit={handleSubmit} 
+              poweredDown={poweredDown} 
+            />
           </div>
 
-          <ModeRouter />
+          <div className="right-panel-container">
+            <ModeRouter />
+          </div>
 
-          {showSettings && (
+          {showSettings && SettingsModal && (
             <SettingsModal
               isOpen={showSettings}
               onClose={() => setShowSettings(false)}
@@ -215,11 +311,9 @@ export default function AppContent() { // Added comment to force change
       </div>
       {showOverlay && (
         <div className="aeli-poweroff-overlay fade-in">
-          <p>AELI is powered down. Say “wake up” to restore functions.</p>
+          <p>AELI is powered down. Say "wake up" to restore functions.</p>
         </div>
       )}
     </>
   );
 }
-
-

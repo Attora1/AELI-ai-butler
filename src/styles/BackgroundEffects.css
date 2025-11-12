@@ -1,0 +1,133 @@
+/* Background Effects for Different Modes */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Low Spoon Mode - Floating Leaves */
+.low-spoon-effects .floating-leaf {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.3;
+  animation: floatLeaf linear infinite;
+  filter: drop-shadow(0 0 5px rgba(214, 228, 154, 0.4));
+}
+
+@keyframes floatLeaf {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Focus Mode - Pulsing Glow */
+.focus-effects .pulsing-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 128, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.focus-effects .focus-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  border: 2px solid rgba(0, 128, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: expandRing 6s ease-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes expandRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+/* Partner Mode - Connection Lines */
+.partner-effects .connection-line {
+  position: absolute;
+  top: 30%;
+  width: 2px;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(246, 160, 95, 0.4), transparent);
+  animation: connectionPulse 3s ease-in-out infinite;
+}
+
+@keyframes connectionPulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scaleY(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scaleY(1.2);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .floating-leaf {
+    font-size: 18px;
+  }
+  
+  .focus-effects .pulsing-glow {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .focus-effects .focus-ring {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .floating-leaf,
+  .pulsing-glow,
+  .focus-ring,
+  .connection-line {
+    animation: none;
+    opacity: 0.1;
+  }
+}

@@ -1,0 +1,458 @@
+/* Daily Mission Briefing Styles */
+.daily-mission-briefing {
+  background: rgba(26, 35, 47, 0.95);
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 16px;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.briefing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #4a5568;
+}
+
+.briefing-header h3 {
+  margin: 0;
+  color: #63b3ed;
+  font-weight: 600;
+}
+
+.current-time {
+  background: #2d3748;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #68d391;
+}
+
+.briefing-section {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(45, 55, 72, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #63b3ed;
+}
+
+.briefing-section h4 {
+  margin: 0 0 8px 0;
+  color: #fbb6ce;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-report {
+  font-style: italic;
+  color: #a0aec0;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.status-grid {
+  display: grid;
+  gap: 6px;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.status-label {
+  color: #cbd5e0;
+  font-weight: 500;
+}
+
+.status-value {
+  color: #68d391;
+  text-align: right;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.schedule-list {
+  display: grid;
+  gap: 8px;
+}
+
+.schedule-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  background: rgba(26, 32, 44, 0.5);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.schedule-time {
+  color: #63b3ed;
+  font-weight: 500;
+  min-width: 65px;
+}
+
+.schedule-task {
+  color: #e2e8f0;
+}
+
+.spoon-cost {
+  color: #fc8181;
+  font-weight: 600;
+  text-align: right;
+}
+
+.spoon-cost.positive {
+  color: #68d391;
+}
+
+.spoon-prediction {
+  margin-top: 12px;
+  padding: 8px;
+  background: rgba(56, 178, 172, 0.1);
+  border-radius: 4px;
+  text-align: center;
+  font-size: 13px;
+  color: #4fd1c7;
+}
+
+.sam-return {
+  border-left-color: #f6ad55;
+  text-align: center;
+}
+
+.sam-time {
+  font-size: 24px;
+  color: #f6ad55;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.sam-note {
+  font-style: italic;
+  color: #a0aec0;
+  font-size: 12px;
+  margin: 0;
+}
+
+.quick-wins-list {
+  display: grid;
+  gap: 4px;
+}
+
+.quick-win-item {
+  font-size: 12px;
+  color: #cbd5e0;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(74, 85, 104, 0.3);
+}
+
+.quick-win-item:last-child {
+  border-bottom: none;
+}
+
+.clothing-suggestion {
+  font-size: 12px;
+  color: #d69e2e;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* Scrollbar styling */
+.daily-mission-briefing::-webkit-scrollbar {
+  width: 6px;
+}
+
+.daily-mission-briefing::-webkit-scrollbar-track {
+  background: rgba(45, 55, 72, 0.3);
+  border-radius: 3px;
+}
+
+.daily-mission-briefing::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 3px;
+}
+
+.daily-mission-briefing::-webkit-scrollbar-thumb:hover {
+  background: #63b3ed;
+}
+
+/* Jameson's Contextual Wisdom Styles */
+.jameson-wisdom {
+  background: rgba(26, 35, 47, 0.95);
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 16px;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.wisdom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #4a5568;
+}
+
+.wisdom-header h3 {
+  margin: 0;
+  color: #d69e2e;
+  font-weight: 600;
+}
+
+.mood-ring {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.wisdom-section {
+  margin-bottom: 18px;
+  padding: 12px;
+  background: rgba(45, 55, 72, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #d69e2e;
+}
+
+.wisdom-section h4 {
+  margin: 0 0 10px 0;
+  color: #fbb6ce;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Current Observation */
+.current-observation {
+  border-left-color: #63b3ed;
+}
+
+.observation-text {
+  font-style: italic;
+  color: #cbd5e0;
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  line-height: 1.4;
+  min-height: 40px;
+}
+
+.refresh-observation, .refresh-quote {
+  background: rgba(99, 179, 237, 0.2);
+  border: 1px solid #63b3ed;
+  color: #63b3ed;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-observation:hover, .refresh-quote:hover {
+  background: rgba(99, 179, 237, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Core Quote */
+.core-quote {
+  border-left-color: #b794f6;
+}
+
+.quote-text {
+  color: #e2e8f0;
+  font-style: italic;
+  margin: 0 0 12px 0;
+  padding: 8px 12px;
+  background: rgba(183, 148, 246, 0.1);
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+  border-left: 3px solid #b794f6;
+}
+
+/* Jameson Advice */
+.jameson-advice {
+  border-left-color: #f6ad55;
+}
+
+.advice-prompt {
+  color: #a0aec0;
+  font-size: 12px;
+  margin: 0 0 10px 0;
+}
+
+.advice-button {
+  background: rgba(246, 173, 85, 0.2);
+  border: 1px solid #f6ad55;
+  color: #f6ad55;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.advice-button:hover {
+  background: rgba(246, 173, 85, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Emergency Buttons */
+.emergency-buttons {
+  border-left-color: #fc8181;
+}
+
+.emergency-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.emergency-btn {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid;
+  font-weight: 500;
+}
+
+.emergency-btn.crashing {
+  background: rgba(252, 129, 129, 0.2);
+  border-color: #fc8181;
+  color: #fc8181;
+}
+
+.emergency-btn.crashing:hover {
+  background: rgba(252, 129, 129, 0.3);
+}
+
+.emergency-btn.sass {
+  background: rgba(214, 158, 46, 0.2);
+  border-color: #d69e2e;
+  color: #d69e2e;
+}
+
+.emergency-btn.sass:hover {
+  background: rgba(214, 158, 46, 0.3);
+}
+
+.emergency-btn.gentle {
+  background: rgba(104, 211, 145, 0.2);
+  border-color: #68d391;
+  color: #68d391;
+}
+
+.emergency-btn.gentle:hover {
+  background: rgba(104, 211, 145, 0.3);
+}
+
+.emergency-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Context Display */
+.context-display {
+  border-left-color: #4fd1c7;
+}
+
+.context-grid {
+  display: grid;
+  gap: 6px;
+}
+
+.context-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.context-label {
+  color: #a0aec0;
+  font-weight: 500;
+}
+
+.context-value {
+  color: #4fd1c7;
+  font-weight: 600;
+}
+
+/* Scrollbar styling for wisdom panel */
+.jameson-wisdom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.jameson-wisdom::-webkit-scrollbar-track {
+  background: rgba(45, 55, 72, 0.3);
+  border-radius: 3px;
+}
+
+.jameson-wisdom::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 3px;
+}
+
+.jameson-wisdom::-webkit-scrollbar-thumb:hover {
+  background: #d69e2e;
+}
+
+/* Right Panel Switcher Styles */
+.right-panel-container {
+  width: 100%;
+  height: 100%;
+}
+
+.panel-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+  background: rgba(26, 35, 47, 0.8);
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+}
+
+.panel-switch-btn {
+  padding: 8px 12px;
+  background: rgba(45, 55, 72, 0.6);
+  border: 1px solid #4a5568;
+  color: #a0aec0;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  text-align: center;
+}
+
+.panel-switch-btn:hover {
+  background: rgba(74, 85, 104, 0.8);
+  color: #e2e8f0;
+}
+
+.panel-switch-btn.active {
+  background: rgba(99, 179, 237, 0.2);
+  border-color: #63b3ed;
+  color: #63b3ed;
+}
+
+.panel-content {
+  width: 100%;
+  height: calc(100% - 60px);
+}

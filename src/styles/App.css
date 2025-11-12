@@ -16,26 +16,65 @@
   top: var(--space-4);
   left: 0vw;
   display: flex;
+  gap: var(--space-4); /* Add proper spacing between buttons */
   z-index: 2;
   padding: var(--space-1) var(--space-3);
   pointer-events: auto;
 }
 
 .header-buttons .btn {
-  color: var(--color-gold-soft);
-  font-size: calc(0.95rem * var(--ui-font-scale)); /* Keep specific font-size here if it deviates from base */
-  transition: var(--transition-ease); /* Use token for transition */
+  /* Base styling using design tokens */
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none; /* Remove visible border */
+  color: var(--text-dim);
+  font-size: calc(0.95rem * var(--ui-font-scale));
+  font-weight: 500;
+  cursor: pointer;
+  
+  /* Subtle base state - no visible effects */
+  backdrop-filter: none;
+  box-shadow: none;
+  
+  /* Smooth transitions for all properties */
+  transition: all 0.25s ease;
+  
+  /* Ensure proper stacking */
+  position: relative;
+  z-index: 1;
+}
+
+.header-buttons .btn:hover {
+  background: transparent;
+  color: var(--text);
+  
+  /* Only glow effect on hover - no borders or background */
+  backdrop-filter: none;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+  transform: none; /* Remove lift effect */
+}
+
+.header-buttons .btn:active {
+  transform: none;
+  backdrop-filter: none;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+}
+
+.header-buttons .btn:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(106, 166, 143, 0.4);
 }
 
 
 /* Main layout for chat and focus panel side-by-side */
 .main-content {
   display: grid;
-  grid-template-columns: 450px 1fr; /* chat + mode area */
+  grid-template-columns: 480px 1fr; /* Slightly wider chat + mode area */
   flex: 1;
   align-items: start;
-  gap: var(--space-8);
-  padding: var(--space-2) var(--space-4);
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-6); /* More breathing room */
   height: 100%;
   max-height: 100vh;
   max-width: 100%;
@@ -61,7 +100,7 @@
 /* Chat container */
 .chat-container {
   flex: 1;
-  max-width: 450px;
+  max-width: 480px; /* Match the grid column width */
   background-color: var(--steel-blue);
   border-radius: var(--radius-md);
   display: flex;
@@ -71,7 +110,46 @@
   position: relative;
   z-index: 2;
   pointer-events: auto;
-  margin-top: var(--space-8);
+  margin-top: var(--space-6); /* Better balance with header */
+  padding: var(--space-4); /* Add internal padding for breathing room */
+  box-sizing: border-box;
+}
+
+/* Header button theme overrides - glow only approach */
+.low_spoon-theme .header-buttons .btn {
+  color: rgba(214, 228, 154, 0.8);
+}
+
+.low_spoon-theme .header-buttons .btn:hover {
+  color: #d6e49a;
+  box-shadow: 0 4px 12px rgba(214, 228, 154, 0.4);
+}
+
+.focus-theme .header-buttons .btn {
+  color: rgba(160, 192, 255, 0.8);
+}
+
+.focus-theme .header-buttons .btn:hover {
+  color: #a0c0ff;
+  box-shadow: 0 4px 12px rgba(0, 128, 255, 0.4);
+}
+
+.partner_support-theme .header-buttons .btn {
+  color: rgba(253, 171, 184, 0.8);
+}
+
+.partner_support-theme .header-buttons .btn:hover {
+  color: #fdabb8;
+  box-shadow: 0 4px 12px rgba(253, 171, 184, 0.5);
+}
+
+.dashboard-theme .header-buttons .btn {
+  color: rgba(251, 224, 204, 0.8);
+}
+
+.dashboard-theme .header-buttons .btn:hover {
+  color: #fbe0cc;
+  box-shadow: 0 4px 12px rgba(251, 224, 204, 0.4);
 }
 
 /* Mode-specific overrides */
@@ -339,6 +417,25 @@ color: #fbe0ccde;
   gap: var(--space-8) !important;
   width: 100% !important;
   max-width: 100% !important;
+}
+
+.chat-column {
+  /* Empty - chat is handled in main layout */
+}
+
+.right-panel-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.right-panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  max-width: 100%;
 }
 
 .aeli-poweroff-overlay {

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { useMode } from '../context/useMode.js';
+import { useApp } from '../context/useApp.js';
 
 // Lazy-load each mode screen
 const ChatMode = lazy(() => import('../modes/ChatMode.jsx'));
@@ -23,7 +23,7 @@ const MODE_MAP = {
 };
 
 export default function ModeRouter() {
-  const { mode } = useMode();
+  const { mode } = useApp();
   console.log("Current mode:", mode);
   const key = norm(mode);
   const Screen = MODE_MAP[key] || ChatMode; // ✅ fallback is Chat, not Dashboard

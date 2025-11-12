@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test</title>
+    <style>
+        .btn {
+            padding: 8px 16px;
+            margin: 4px;
+            border: 1px solid #ccc;
+            background: #f0f0f0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background: #e0e0e0;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Button Functionality Test</h1>
+    <div>
+        <button class="btn" id="settings-btn">⚙️ Settings</button>
+        <button class="btn" id="clear-memory-btn">Clear Memory</button>
+        <button class="btn" id="show-facts-btn">Show Memories</button>
+        <button class="btn" id="clear-facts-btn">Clear Memories</button>
+        <button class="btn" id="voice-toggle-btn">🔈 Voice On</button>
+    </div>
+    
+    <div id="output">
+        <p>Click buttons to test functionality...</p>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            output.innerHTML += '<p>' + message + '</p>';
+        }
+        
+        // Test localStorage access
+        document.getElementById('settings-btn').onclick = () => {
+            log('Settings button clicked - would open settings modal');
+        };
+        
+        document.getElementById('clear-memory-btn').onclick = () => {
+            try {
+                localStorage.removeItem('chatMessages');
+                log('✅ Clear Memory: localStorage.removeItem worked');
+            } catch (e) {
+                log('❌ Clear Memory: ' + e.message);
+            }
+        };
+        
+        document.getElementById('show-facts-btn').onclick = () => {
+            try {
+                const facts = localStorage.getItem('AELI_FACTS');
+                log('✅ Show Facts: Retrieved from localStorage: ' + (facts ? 'found data' : 'no data'));
+            } catch (e) {
+                log('❌ Show Facts: ' + e.message);
+            }
+        };
+        
+        document.getElementById('clear-facts-btn').onclick = () => {
+            try {
+                localStorage.removeItem('AELI_FACTS');
+                log('✅ Clear Facts: localStorage.removeItem worked');
+            } catch (e) {
+                log('❌ Clear Facts: ' + e.message);
+            }
+        };
+        
+        document.getElementById('voice-toggle-btn').onclick = () => {
+            try {
+                const settings = JSON.parse(localStorage.getItem('AELI_SETTINGS') || '{}');
+                settings.voiceEnabled = !settings.voiceEnabled;
+                localStorage.setItem('AELI_SETTINGS', JSON.stringify(settings));
+                log('✅ Voice Toggle: Settings updated, voiceEnabled = ' + settings.voiceEnabled);
+            } catch (e) {
+                log('❌ Voice Toggle: ' + e.message);
+            }
+        };
+        
+        log('Button test page loaded successfully');
+    </script>
+</body>
+</html>

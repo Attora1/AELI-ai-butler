@@ -1,6 +1,8 @@
 // src/intents/cancelTimerIntent.js
 // Returns true if it handled the message (so caller can `return;`), else false.
 
+import { createMessage } from '../utils/messageHelpers.js';
+
 export async function cancelTimerIntent({ input, settings, setMessages, setInput }) {
   const raw = (input || '').trim();
   if (!raw) return false;
@@ -34,28 +36,28 @@ export async function cancelTimerIntent({ input, settings, setMessages, setInput
       const count = data.count ?? (data.cancelled?.length || 0);
       setMessages(prev => [
         ...prev,
-        { isUser: true, text: raw },
-        {
+        createMessage({ isUser: true, text: raw }),
+        createMessage({
           isUser: false,
           text:
             count > 1 ? ` Cancelled ${count} timers.` :
             count === 1 ? ` Timer cancelled.` :
             `No active timers to cancel.`
-        }
+        })
       ]);
     } else {
       setMessages(prev => [
         ...prev,
-        { isUser: true, text: raw },
-        { isUser: false, text: `Couldn't cancel the timer (${data?.error || res.status}).` }
+        createMessage({ isUser: true, text: raw }),
+        createMessage({ isUser: false, text: `Couldn't cancel the timer (${data?.error || res.status}).` })
       ]);
     }
   } catch (err) {
     console.error('[cancel timer intent] failed:', err);
     setMessages(prev => [
       ...prev,
-      { isUser: true, text: raw },
-      { isUser: false, text: 'Network hiccup while cancelling.' }
+      createMessage({ isUser: true, text: raw }),
+      createMessage({ isUser: false, text: 'Network hiccup while cancelling.' })
     ]);
   }
 

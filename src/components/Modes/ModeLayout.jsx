@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/modes-css/ModeLayout.css';
 
 
 export default function ModeLayout({ heading, subtitle, leftColumn, rightColumn, className, headerRight }) {

@@ -1,15 +1,12 @@
 import React from 'react';
-import { SpoonProvider } from './context/SpoonContext.jsx';
-import { ModeProvider } from "./context/ModeContext.jsx";
+import { AppProvider } from './context/AppContext.jsx';
 import AppContent from './components/AppContent.jsx'; // Import AppContent
 
 function App() {
   return (
-    <SpoonProvider>
-      <ModeProvider>
-        <AppContent />
-      </ModeProvider>
-    </SpoonProvider>
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
   );
 }
 

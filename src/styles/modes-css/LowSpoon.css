@@ -1,13 +1,5 @@
 .low-spoon-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 1 !important;
-  background: url('../../assets/leafy-bg.png') center center / cover no-repeat;
-  background-size: cover; /* or try 'contain' or just 'cover' depending on preference */
-  opacity: 0.9; /* soften brightness */
-  filter: brightness(0.85) contrast(1.1);
-  backdrop-filter: blur(4px);
-  pointer-events: none;
+  display: none;
 }
 
 
@@ -28,10 +20,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  gap: 2.4rem; /* Keep as is, no direct token */
+  gap: 0.5rem; /* Reduced from 2.4rem to bring controls closer */
 
   padding: var(--spacing-m) 0;
   margin-top: -0.5rem; /* was 1rem — this brings it closer to the top */
+  margin-bottom: -1rem; /* Added negative bottom margin to reduce space below petal */
   transform: translateY(-5rem); /* gently lift it up */
   
   width: 100%;
@@ -67,12 +60,14 @@
 
 .falling-spoon {
   position: absolute;
-  top: 0;
+  top: -50px;
   left: 50%;
-  width: 12px;
+  width: 24px;
   height: 24px;
   opacity: 0;
   will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .fall {
@@ -81,11 +76,22 @@
 }
 
 .breathing-petal-image {
-  width: 200px;
-  height: 200px;
+  width: 300px; /* Increased from 200px */
+  height: 300px; /* Increased from 200px */
   pointer-events: auto;
   user-select: none;
-  
+  transition: transform 8.5s cubic-bezier(0.45, 0, 0.55, 1), filter 1s ease;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.breathing-ring.inhale .breathing-petal-image {
+  transform: scale(1.1) rotate(2deg);
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+}
+
+.breathing-ring.exhale .breathing-petal-image {
+  transform: scale(0.9) rotate(-2deg);
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.2));
 }
 
 .animate-spin-drag {
@@ -98,14 +104,76 @@
   100% { transform: rotate(0deg); }
 }
 
-.breathing-ring-wrapper.inhale {
-  transform: scale(2.04) rotate(3.5deg);
+.breathing-ring-wrapper {
   transition: transform 8.5s cubic-bezier(0.45, 0, 0.55, 1);
+  transform-origin: center;
+}
+
+.breathing-ring-wrapper.inhale {
+  transform: scale(1.3) rotate(3.5deg);
 }
 
 .breathing-ring-wrapper.exhale {
-  transform: scale(1.5) rotate(-3.5deg);
-  transition: transform 8.5s cubic-bezier(0.45, 0, 0.55, 1);
+  transform: scale(0.9) rotate(-3.5deg);
+}
+
+.breathing-ring {
+  position: relative;
+  width: 350px; /* Increased from 250px to accommodate larger petal */
+  height: 350px; /* Increased from 250px to accommodate larger petal */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.breathing-ring.is-running {
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.breathing-ring.is-paused {
+  opacity: 0.8;
+}
+
+.breathing-ring.shell {
+  border: 2px solid var(--color-low-spoon-breathing-ring-shell-border, rgba(255, 215, 0, 0.6));
+  box-shadow: var(--box-shadow-low-spoon-breathing-ring-shell, 0 4px 20px rgba(0, 0, 0, 0.1));
+}
+
+.breathing-ring-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+}
+
+.placeholder-copy {
+  text-align: center;
+  color: var(--color-low-spoon-gold-soft, #d4af37);
+}
+
+.placeholder-copy .eyebrow {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-copy .headline {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-copy .subtle {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.3;
 }
 
 
@@ -130,35 +198,75 @@
 
 
 
-.suggestions {
-  border-radius: var(--border-radius-l);
-  padding: var(--spacing-m) var(--spacing-l);
-  max-width: 100%;
-  backdrop-filter: blur(4px);
-  box-shadow:
-    var(--box-shadow-low-spoon-suggestions-inset),
-    var(--box-shadow-low-spoon-suggestions-outer); 
+.suggestions-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(184, 197, 214, 0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.suggestions-header {
   display: flex;
-  flex-wrap: wrap;
-
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-
-
-
-.suggestions h3 {
-  margin-top: 0;
-  color: var(--color-low-spoon-gold-soft);
+.suggestions-header h3 {
+  margin: 0;
+  color: #B8C5D6;
   font-weight: 600;
-  margin-bottom: var(--spacing-m);
+  font-size: 1.2rem;
 }
 
-.suggestion-item {
-  padding: var(--spacing-xs) 0;
-  font-size: var(--spacing-m);
-  line-height: 1rem;
-  color: var(--color-low-spoon-suggestion-item);
+.suggestion-content {
+  display: flex;
+  justify-content: center;
+}
 
+.suggestion-btn {
+  background: rgba(184, 197, 214, 0.1);
+  color: #B8C5D6;
+  border: 1px solid rgba(184, 197, 214, 0.3);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-btn:hover {
+  background: rgba(184, 197, 214, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(184, 197, 214, 0.1);
+}
+
+.grounding-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.grounding-button {
+  background: rgba(70, 130, 180, 0.2);
+  color: #87CEEB;
+  border: 1px solid rgba(70, 130, 180, 0.4);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.grounding-button:hover {
+  background: rgba(70, 130, 180, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.2);
 }
 
 .low-spoon-AELI-message {
@@ -199,10 +307,12 @@
 .breathing-controls {
   display: flex;
   justify-content: center;
-  gap: var(--spacing-l);
+  gap: 1.5rem; /* Reduced gap to fit three buttons comfortably */
   align-items: center;
-  margin-top: var(--spacing-l);
-  flex-wrap: wrap;
+  margin-top: -3rem; /* Increased negative margin to pull buttons up more */
+  margin-bottom: 2rem; /* Added bottom margin */
+  padding: 2rem 1rem; /* Added padding around the controls */
+  flex-wrap: nowrap; /* Prevent wrapping to keep all buttons on same line */
 }
 
 .breathing-timer {
@@ -211,11 +321,12 @@
   background-color: var(--color-low-spoon-breathing-timer-background);
   border: 1px solid var(--color-low-spoon-breathing-timer-border);
   border-radius: var(--border-radius-l);
-  padding: var(--spacing-xs) var(--spacing-m);
+  padding: 1rem 1.5rem; /* Increased from var(--spacing-xs) var(--spacing-m) */
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.3s ease; /* Keep as is */
   backdrop-filter: blur(4px); /* Keep as is */
   box-shadow: var(--box-shadow-low-spoon-breathing-timer);
+  min-width: 6rem; /* Added minimum width for consistency */
 }
 
 .breathing-timer:hover {
@@ -224,7 +335,8 @@
 }
 
 .start-breathing-button,
-.stop-breathing-button {
+.stop-breathing-button,
+.crisis-support-button {
   background-color: var(--color-low-spoon-start-stop-btn-background);
   color: var(--color-low-spoon-gold-soft);
   border: var(--color-low-spoon-start-stop-btn-border);
@@ -232,10 +344,21 @@
   backdrop-filter: blur(4px); /* Keep as is */
   text-shadow: var(--text-shadow-low-spoon-start-stop-btn);
   transition: background-color 0.3s ease, transform 0.2s ease; /* Keep as is */
+  padding: 1rem 1.5rem; /* Slightly reduced padding to fit better inline */
+  font-size: 0.9rem; /* Slightly smaller font to fit better */
+  border-radius: var(--border-radius-l); /* Added border radius to match timer */
+  cursor: pointer; /* Added cursor pointer */
+  min-width: 8rem; /* Reduced minimum width for inline layout */
+  text-decoration: none; /* Remove underline for crisis support link */
+  display: inline-flex; /* Allow link to behave like button */
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .start-breathing-button:hover,
-.stop-breathing-button:hover {
+.stop-breathing-button:hover,
+.crisis-support-button:hover {
   background-color: var(--color-low-spoon-start-stop-btn-hover-background);
   transform: scale(1.05);
   color: var(--color-low-spoon-start-stop-btn-hover-color);
@@ -246,12 +369,14 @@
 /* Prevent persistent white border after clicking */
 .start-breathing-button,
 .stop-breathing-button,
+.crisis-support-button,
 .breathing-timer {
   outline: none;
 }
 
 .start-breathing-button:focus,
 .stop-breathing-button:focus,
+.crisis-support-button:focus,
 .breathing-timer:focus {
   outline: none;
   box-shadow: none;
@@ -259,6 +384,7 @@
 
 .start-breathing-button:focus-visible,
 .stop-breathing-button:focus-visible,
+.crisis-support-button:focus-visible,
 .breathing-timer:focus-visible {
   outline: none;
   box-shadow: none; /* or add a gentle glow if desired */
@@ -314,14 +440,17 @@
   pointer-events: none;
   transition: opacity 5s ease-in-out;
   opacity: 0;
+  visibility: hidden;
 }
 
 .dim-overlay.show {
   opacity: 1;
+  visibility: visible;
 }
 
 .dim-overlay.hide {
   opacity: 0;
+  visibility: hidden;
 }
 
 .fade-in-AELI {
@@ -372,25 +501,35 @@
   gap: 2.5rem; /* Keep as is, no direct token */
   padding: var(--spacing-m) var(--spacing-xl);
   box-sizing: border-box;
-  margin-top: 7rem; /* Keep as is, no direct token */
+  margin-top: 5rem; /* Reduced from 7rem to account for larger petal */
+  position: relative;
+  z-index: 5;
+  min-height: 60vh; /* Ensure minimum height to prevent overlap */
 }
 
-.low-spoon-theme  {
-margin-top: -3rem;
+.low-spoon-theme {
+  position: relative;
+  z-index: 1;
+  margin-top: -3rem;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .low-spoon-theme .left-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-l);
-  padding: 0;
+  gap: 0.5rem; /* Reduced from var(--spacing-l) to bring breathing controls closer */
+  padding: 2rem 0 0 0; /* Added top padding to give breathing room */
+  width: 100%; /* Ensure full width */
+  max-width: 400px; /* Prevent column from getting too wide */
+  margin: 0 auto; /* Center the column */
 }
 
 .low-spoon-theme .right-column {
-  padding: 0 1rem;
+  padding: 2rem 1rem 0 1rem; /* Added top padding to match left column */
   box-sizing: border-box;
-  margin-top: -3.75rem;
+  margin-top: -1rem; /* Adjusted to be less down than 2rem but not as high as -3.75rem */
 }
 
 
@@ -453,75 +592,32 @@ margin-top: -3rem;
 }
 
 .low-spoon-theme .mode-header {
-  width: 100%;
-  padding: var(--spacing-l) var(--spacing-xl);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   text-align: center;
-  gap: var(--spacing-s);
+  padding: 2rem 0 1rem 0;
   position: relative;
-  z-index: 5;
+  z-index: 10;
 }
 
 .low-spoon-theme .mode-title {
-  font-size: 1.3rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: var(--color-low-spoon-gold-soft);
-  text-shadow: var(--text-shadow-low-spoon-title);
+  color: #B8C5D6;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .low-spoon-theme .mode-subtitle {
-  font-size: 1rem;
-  color: var(--color-low-spoon-gold-soft);
+  font-size: 1.2rem;
+  color: #9AACBF;
   opacity: 0.9;
+  margin: 0;
   max-width: 60ch;
-  text-shadow: var(--text-shadow-low-spoon-subtitle);
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.low-spoon-theme .breathing-ring {
-  position: relative;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: var(--spacing-l);
-  transition: transform 0.5s ease;
-}
-
-.low-spoon-theme .breathing-ring.shell {
-  border: 2px solid var(--color-low-spoon-breathing-ring-shell-border);
-  box-shadow: var(--box-shadow-low-spoon-breathing-ring-shell);
-}
-
-.low-spoon-theme .breathing-ring .breathing-ring-inner {
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  background-color: var(--color-low-spoon-breathing-ring-inner-background);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: var(--color-low-spoon-gold-soft);
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding: var(--spacing-m);
-  box-sizing: border-box;
-  text-shadow: var(--text-shadow-low-spoon-breathing-ring-inner);
-  transition: transform 8.5s cubic-bezier(0.45, 0, 0.55, 1);
-}
-
-.low-spoon-theme .breathing-ring.inhale .breathing-ring-inner {
-  transform: scale(1.2);
-}
-
-.low-spoon-theme .breathing-ring.exhale .breathing-ring-inner {
-  transform: scale(0.8);
-}
+/* Breathing ring styles moved to main section above to avoid conflicts */
 
 /* === Responsive (mobile) adjustments for Low Spoon === */
  @media (max-width: 768px) {
@@ -539,11 +635,25 @@ margin-top: -3rem;
     font-size: calc(0.95rem * var(--ui-font-scale, 1));
   }
 
-  /* Breathing ring container */
-  .breathing-ring,
-  .breathing-ring.shell,
-  .breathing-ring .breathing-ring-inner {
-    margin-top: var(--space-4);
+  /* Breathing ring container - reduce size on mobile */
+  .breathing-ring {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .breathing-petal-image {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .low-spoon-theme .mode-layout-columns {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  
+  .low-spoon-theme .left-column {
+    max-width: 100%;
   }
 
   /* Suggestions / buttons cluster */

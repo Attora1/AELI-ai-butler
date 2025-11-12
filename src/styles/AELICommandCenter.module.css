@@ -1,0 +1,507 @@
+/* AELI Command Center Styles */
+.aeli-command-center {
+  background: rgba(26, 35, 47, 0.95);
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 20px;
+  color: #e2e8f0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  max-height: 600px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.command-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #4a5568;
+}
+
+.command-header h2 {
+  margin: 0 0 8px 0;
+  color: #63b3ed;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #a0aec0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #68d391;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.ready {
+  background: #68d391;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.command-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: rgba(45, 55, 72, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #63b3ed;
+}
+
+.command-section h3 {
+  margin: 0 0 4px 0;
+  color: #fbb6ce;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-subtitle {
+  margin: 0 0 12px 0;
+  color: #a0aec0;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* Energy Section */
+.energy-section {
+  border-left-color: #68d391;
+}
+
+.energy-display {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.energy-level {
+  display: flex;
+  align-items: baseline;
+  color: #68d391;
+}
+
+.energy-number {
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.energy-max {
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.energy-status {
+  flex: 1;
+}
+
+.status-label {
+  color: #63b3ed;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.status-message {
+  color: #a0aec0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.energy-indicators {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.energy-indicator {
+  font-size: 16px;
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+}
+
+.energy-indicator.filled {
+  opacity: 1;
+}
+
+.task-badge {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.task-complete {
+  background: rgba(252, 129, 129, 0.2);
+  border: 1px solid #fc8181;
+  color: #fc8181;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.wisdom-badge {
+  background: rgba(183, 148, 246, 0.2);
+  border: 1px solid #b794f6;
+  color: #b794f6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Quick Deploy */
+.quick-deploy {
+  border-left-color: #f6ad55;
+}
+
+.deploy-controls {
+  display: grid;
+  gap: 16px;
+}
+
+.focus-timer label,
+.memory-bank label {
+  display: block;
+  color: #cbd5e0;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.timer-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timer-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-input input {
+  width: 50px;
+  padding: 6px 8px;
+  background: rgba(26, 32, 44, 0.8);
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+.timer-input span {
+  color: #a0aec0;
+  font-size: 12px;
+}
+
+.timer-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.deploy-btn, .pause-btn, .resume-btn, .reset-btn {
+  background: rgba(246, 173, 85, 0.2);
+  border: 1px solid #f6ad55;
+  color: #f6ad55;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.deploy-btn:hover, .pause-btn:hover, .resume-btn:hover, .reset-btn:hover {
+  background: rgba(246, 173, 85, 0.3);
+  transform: translateY(-1px);
+}
+
+.pause-btn {
+  background: rgba(252, 129, 129, 0.2);
+  border-color: #fc8181;
+  color: #fc8181;
+}
+
+.pause-btn:hover {
+  background: rgba(252, 129, 129, 0.3);
+}
+
+.resume-btn {
+  background: rgba(104, 211, 145, 0.2);
+  border-color: #68d391;
+  color: #68d391;
+}
+
+.resume-btn:hover {
+  background: rgba(104, 211, 145, 0.3);
+}
+
+.reset-btn {
+  background: rgba(160, 174, 192, 0.2);
+  border-color: #a0aec0;
+  color: #a0aec0;
+}
+
+.reset-btn:hover {
+  background: rgba(160, 174, 192, 0.3);
+}
+
+.timer-display {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(26, 32, 44, 0.8);
+  border-radius: 4px;
+  border: 1px solid #4a5568;
+}
+
+.timer-time {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f6ad55;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.timer-progress {
+  width: 100%;
+  height: 6px;
+  background: rgba(45, 55, 72, 0.8);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.timer-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f6ad55, #63b3ed);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.memory-bank {
+  margin-top: 12px;
+}
+
+.memory-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.memory-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(26, 32, 44, 0.8);
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+.memory-input::placeholder {
+  color: #718096;
+}
+
+.archive-btn {
+  background: rgba(99, 179, 237, 0.2);
+  border: 1px solid #63b3ed;
+  color: #63b3ed;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.archive-btn:hover {
+  background: rgba(99, 179, 237, 0.3);
+}
+
+.archive-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Weather Section */
+.weather-section {
+  border-left-color: #4fd1c7;
+}
+
+.weather-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(26, 32, 44, 0.6);
+  border-radius: 4px;
+  border: 1px solid #4fd1c7;
+}
+
+.weather-temp {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4fd1c7;
+}
+
+.weather-suggestion {
+  color: #a0aec0;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.weather-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weather-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(26, 32, 44, 0.8);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.weather-progress {
+  width: 85%;
+  height: 100%;
+  background: linear-gradient(90deg, #4fd1c7, #63b3ed);
+  border-radius: 4px;
+  animation: weatherScan 3s ease-in-out infinite;
+}
+
+@keyframes weatherScan {
+  0%, 100% { width: 85%; }
+  50% { width: 100%; }
+}
+
+.weather-loading span {
+  color: #a0aec0;
+  font-size: 11px;
+  font-style: italic;
+}
+
+.weather-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(79, 209, 199, 0.3);
+  margin-top: 12px;
+}
+
+/* Recovery Section */
+.recovery-section {
+  border-left-color: #b794f6;
+}
+
+.recovery-options {
+  display: grid;
+  gap: 8px;
+}
+
+.recovery-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(183, 148, 246, 0.1);
+  border: 1px solid #b794f6;
+  color: #e2e8f0;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-weight: 500;
+}
+
+.recovery-btn:hover {
+  background: rgba(183, 148, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.recovery-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.recovery-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.recovery-name {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.recovery-details {
+  font-size: 10px;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+.recovery-btn.tea {
+  border-color: #d69e2e;
+  background: rgba(214, 158, 46, 0.1);
+}
+
+.recovery-btn.tea:hover {
+  background: rgba(214, 158, 46, 0.2);
+}
+
+.recovery-btn.cuddle {
+  border-color: #68d391;
+  background: rgba(104, 211, 145, 0.1);
+}
+
+.recovery-btn.cuddle:hover {
+  background: rgba(104, 211, 145, 0.2);
+}
+
+.recovery-btn.nap {
+  border-color: #b794f6;
+  background: rgba(183, 148, 246, 0.1);
+}
+
+.recovery-btn.nap:hover {
+  background: rgba(183, 148, 246, 0.2);
+}
+
+/* Scrollbar */
+.aeli-command-center::-webkit-scrollbar {
+  width: 6px;
+}
+
+.aeli-command-center::-webkit-scrollbar-track {
+  background: rgba(45, 55, 72, 0.3);
+  border-radius: 3px;
+}
+
+.aeli-command-center::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 3px;
+}
+
+.aeli-command-center::-webkit-scrollbar-thumb:hover {
+  background: #63b3ed;
+}

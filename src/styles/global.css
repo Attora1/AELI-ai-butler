@@ -7,6 +7,17 @@ html, body, #root, .App {
   /* background: none; */
   color: var(--color-text-light);
   font-family: system-ui, sans-serif;
+  scroll-behavior: auto; /* Prevent smooth scrolling that might auto-scroll to bottom */
+  overflow-anchor: none; /* Prevent scroll anchoring */
+}
+
+/* Prevent auto-scroll on layout changes */
+html {
+  scroll-restoration: manual; /* Prevent browser from restoring scroll position */
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Generic Button Styles */

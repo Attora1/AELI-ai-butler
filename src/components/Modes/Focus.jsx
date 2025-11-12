@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import MotivQuote from '../MotivQuote';
 import MusicToggle from '../Music.jsx';
 import { useCountdown } from '../../hooks/useTimer.js';
+import RightPanelSwitcher from '../RightPanel/RightPanelSwitcher.jsx';
 
 import ModeLayout from '../Modes/ModeLayout.jsx';
 import '../../styles/modes-css/Focus.css';
@@ -16,7 +17,6 @@ const Focus = ({ settings }) => {
   const [newItem, setNewItem] = useState('');
   
   const [showMissionModal, setShowMissionModal] = useState(false);
-  const [sideQuests, setSideQuests] = useState([]);
 
   // eslint-disable-next-line no-unused-vars
   const [greeting, setGreeting] = useState('Focus Mode Activated.');
@@ -29,7 +29,7 @@ const Focus = ({ settings }) => {
     setShowMissionModal(true);
   };
 
-  const { secondsLeft, isRunning, startCountdown, togglePause, stopCountdown } = useCountdown({ onComplete: handleTimerComplete });
+  const { stopCountdown } = useCountdown({ onComplete: handleTimerComplete });
 
   const handleCompleteMission = () => setShowMissionModal(true);
   const confirmCompleteMission = () => {
@@ -37,7 +37,6 @@ const Focus = ({ settings }) => {
     setTask('');
     setTaskSubmitted(false);
     setChecklist([]);
-    setSideQuests([]); // Clear side quests on mission complete
     setShowMissionModal(false);
     stopCountdown();
   };
@@ -66,14 +65,14 @@ const Focus = ({ settings }) => {
       });
       const data = await response.json();
       if (response.ok) {
-        setSideQuests(data.sideQuests);
+        // setSideQuests(data.sideQuests);
       } else {
         console.error("Failed to generate AI side quests:", data.error);
-        setSideQuests(["Failed to generate side quests. Please try again."]);
+        // setSideQuests(["Failed to generate side quests. Please try again."]);
       }
     } catch (error) {
       console.error("Error generating AI side quests:", error);
-      setSideQuests(["Error generating side quests. Check console for details."]);
+      // setSideQuests(["Error generating side quests. Check console for details."]);
     }
   };
 
@@ -164,34 +163,7 @@ const Focus = ({ settings }) => {
             <button className="mission-complete-button" onClick={handleCompleteMission}>Mission Complete!</button>
           </div>
         }
-        rightColumn={
-          <div className="focus-panel">
-            <div className="side-quest-section">
-              <h4>🗂️ Optional Side Quests</h4>
-              <ul className="suggestion-list">
-                {sideQuests.map((idea, idx) => (
-                  <li key={idx}>• {idea}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="timer-controls">
-              <button onClick={() => startCountdown(10)} className="timer-btn">10 min</button>
-              <button onClick={() => startCountdown(20)} className="timer-btn">20 min</button>
-              <button onClick={togglePause} className="timer-btn">{isRunning ? 'Pause' : 'Resume'}</button>
-              <button onClick={stopCountdown} className="timer-btn stop-btn">Stop</button>
-            </div>
-
-            {secondsLeft > 0 && (
-              <p className="timer-display">
-                Time Left: {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}
-              </p>
-            )}
-
-            <MotivQuote customEncouragement={encouragement} customWit={wit} />
-            <MusicToggle />
-          </div>
-        }
+        rightColumn={<RightPanelSwitcher />}
       />
 
       <div className={`focus-modal ${showMissionModal ? 'show' : ''}`}>
