@@ -69,6 +69,8 @@ Create `src/index-clean.html`:
 </html>
 ```
 
+```
+
 ### Step 4: Test Locally
 ```bash
 # Install dependencies if not already installed
