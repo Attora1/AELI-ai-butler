@@ -43,9 +43,6 @@ All while respecting your energy, mood, and sensory needs.
 
 ## 📄 License & Use
 
-MIT License – because AELI believes in sharing the good silver.
-
-
 
 ---
 
