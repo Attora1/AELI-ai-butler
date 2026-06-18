@@ -44,7 +44,7 @@ All while respecting your energy, mood, and sensory needs.
 ## 📄 License & Use
 
 - [License](./LICENSE)
-- [Project Origin Statement](./AELI_Project_Origin_Statement.md)
+- [Project Origin Statement](./docs/AELI_Project_Origin_Statement.md)
 
 ---
 
