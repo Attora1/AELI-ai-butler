@@ -1,11 +1,6 @@
 # 🧠 AELI: Your AI Butler Assistant
 
-[![Bolt.new Hackathon](https://img.shields.io/badge/Bolt.new-Hackathon-blue?style=for-the-badge&logo=bolt&logoColor=white)](https://bolt.new)
-[![Built with Bolt](https://img.shields.io/badge/Built%20with-Bolt-orange?style=for-the-badge&logo=lightning&logoColor=white)](https://bolt.new)
-[![Hackathon 2025](https://img.shields.io/badge/Hackathon-2025-green?style=for-the-badge&logo=calendar&logoColor=white)](https://bolt.new)
-[![AI Assistant](https://img.shields.io/badge/AI-Assistant-purple?style=for-the-badge&logo=robot&logoColor=white)](https://github.com/Attora1/AELI-ai-butler)
-
-**Built for Bolt.new's World's Largest Hackathon | June 2025**
+[![AI Assistant](https://img.shields.io/badge/AI-Assistant-purple?style=for-the-badge&logo=robot&logoColor=white)](https://github.com/Attora1/AELI-ai-
 
 # AELI: Adaptive Energy & Life Interface
 
@@ -50,8 +45,6 @@ All while respecting your energy, mood, and sensory needs.
 
 MIT License – because AELI believes in sharing the good silver.
 
-AELI is open source for educational and non-commercial use under the terms outlined in the LICENSE file.  
-Please refer to the [Project Origin Statement](./AELI_Project_Origin_Statement.md) for concept authorship and contribution guidelines.
 
 
 ---
