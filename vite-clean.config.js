@@ -5,13 +5,12 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  root: 'src',
-  publicDir: '../public',
+  publicDir: 'public',
   build: {
-    outDir: '../dist-clean',
+    outDir: 'dist-clean',
     emptyOutDir: true,
     rollupOptions: {
-      input: resolve(__dirname, 'src/index-clean.html')
+      input: resolve(__dirname, 'index.html')
     }
   },
   server: {
