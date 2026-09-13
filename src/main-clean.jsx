@@ -104,7 +104,7 @@ const styles = `
     width: 34px;
     height: 34px;
     border-radius: 8px;
-    background: rgba(0,0,0,0.1);
+    background: none;
     border: none;
     cursor: pointer;
     color: var(--ink);
@@ -112,11 +112,11 @@ const styles = `
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
     font-family: inherit;
   }
 
-  .settings-btn:hover { background: rgba(0,0,0,0.18); }
+  .settings-btn:hover { background: none; opacity: 0.7; }
 
   /* ── Three-column body ── */
   .app-body {

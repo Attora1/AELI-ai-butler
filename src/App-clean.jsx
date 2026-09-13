@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useApp } from './context/useApp';
 import SettingsModal from './components/Settings/SettingsModal';
+import OnboardingScreen from './components/Startup/OnboardingScreen';
+import WelcomeAnimation from './components/Startup/WelcomeAnimation';
+import { loadAeliConfig } from './utils/aeliConfig';
 
 const INACTIVITY_MS = 5 * 60 * 1000;
 const INACTIVITY_LINES = [
@@ -207,6 +210,13 @@ export default function App() {
 
   const notify = (msg, type = 'success') => setNotification({ message: msg, type });
 
+  const [startupPhase, setStartupPhase] = useState(() => {
+    const config = loadAeliConfig();
+    return config ? 'welcome' : 'onboarding';
+  });
+  const [aeliConfig, setAeliConfig] = useState(() => loadAeliConfig());
+  const [isFirstBoot] = useState(() => !loadAeliConfig());
+
   return (
     <div className="app" data-mode={mode}>
 
@@ -240,6 +250,19 @@ export default function App() {
           message={notification.message}
           type={notification.type}
           onClose={() => setNotification(null)}
+        />
+      )}
+
+      {startupPhase === 'onboarding' && (
+        <OnboardingScreen
+          onComplete={(cfg) => { setAeliConfig(cfg); setStartupPhase('welcome'); }}
+        />
+      )}
+      {startupPhase === 'welcome' && (
+        <WelcomeAnimation
+          config={aeliConfig}
+          isFirstBoot={isFirstBoot}
+          onComplete={() => setStartupPhase('done')}
         />
       )}
     </div>

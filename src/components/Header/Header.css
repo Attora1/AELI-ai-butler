@@ -170,7 +170,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  background: var(--brand);
+  background: none;
   border: none;
   border-radius: var(--radius-md);
   color: var(--text);
@@ -181,13 +181,13 @@
 }
 
 .settings-btn:hover {
-  background: var(--accent-1);
+  background: none;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: none;
 }
 
 .settings-btn:active {
-  background: var(--accent-2);
+  background: none;
   transform: translateY(0);
 }
 

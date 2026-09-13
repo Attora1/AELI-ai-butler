@@ -1,0 +1,116 @@
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #BAE2DA;
+  pointer-events: none;
+}
+
+/* Stage 1 — text fades, leaves emerge */
+.welcome-overlay.fading-out .welcome-logo,
+.welcome-overlay.fading-out .welcome-message {
+  opacity: 0;
+  transition: opacity 900ms ease 0ms;
+}
+
+/* Stage 2 — entire overlay fades, revealing dashboard */
+.welcome-overlay.fading-out {
+  opacity: 0;
+  transition: opacity 2000ms ease 1400ms;
+}
+
+/* Letter wave animation */
+.welcome-logo {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #1A3A35;
+  font-family: 'Georgia', serif;
+  margin-bottom: 0.4em;
+  display: flex;
+}
+
+.welcome-message {
+  font-size: 1.5rem;
+  color: #1A3A35;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.05em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.welcome-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letterRise 300ms ease-in forwards;
+}
+
+.welcome-letter.space {
+  width: 0.3em;
+}
+
+@keyframes letterRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaf container */
+.leaves-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 8001;
+}
+
+.leaf {
+  position: absolute;
+  transform-origin: center center;
+  opacity: 0;
+}
+
+/* nicest — fall down with gentle drift */
+.leaf-fall {
+  animation: leafFall var(--dur) ease-in var(--delay) forwards;
+}
+
+@keyframes leafFall {
+  0%   { opacity: 0;   transform: translate(0, 0) rotate(var(--rot0)); }
+  8%   { opacity: 0.9; }
+  85%  { opacity: 0.7; }
+  100% { opacity: 0;   transform: translate(var(--drift-x), 115vh) rotate(var(--rot1)); }
+}
+
+/* semi-sassy — sweep right */
+.leaf-right {
+  animation: leafRight var(--dur) ease-in var(--delay) forwards;
+}
+
+@keyframes leafRight {
+  0%   { opacity: 0;   transform: translate(0, 0) rotate(var(--rot0)); }
+  8%   { opacity: 0.9; }
+  85%  { opacity: 0.7; }
+  100% { opacity: 0;   transform: translate(115vw, var(--drift-y)) rotate(var(--rot1)); }
+}
+
+/* sarcastic — burst toward viewer */
+.leaf-burst {
+  animation: leafBurst var(--dur) ease-out var(--delay) forwards;
+}
+
+@keyframes leafBurst {
+  0%   { opacity: 0;   transform: translate(0, 0) scale(1) rotate(var(--rot0)); }
+  10%  { opacity: 0.9; }
+  100% { opacity: 0;   transform: translate(var(--burst-x), var(--burst-y)) scale(9) rotate(var(--rot1)); }
+}

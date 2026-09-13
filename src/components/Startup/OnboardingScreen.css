@@ -1,0 +1,123 @@
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 58, 53, 0.96);
+  backdrop-filter: blur(20px);
+  transition: backdrop-filter 600ms ease, background 600ms ease;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #e8e4dc;
+}
+
+.onboarding-overlay.unblurred {
+  backdrop-filter: blur(0px);
+  background: rgba(4, 8, 6, 0.0);
+}
+
+.onboarding-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 640px;
+  width: 90%;
+  gap: 0;
+}
+
+.onboarding-main-text {
+  font-size: 1.35rem;
+  line-height: 1.7;
+  text-align: center;
+  color: #e8e4dc;
+  min-height: 2.4em;
+  letter-spacing: 0.01em;
+}
+
+.onboarding-input-area {
+  margin-top: 16px;
+  font-size: 1.25rem;
+  color: #c9c4bc;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  min-height: 1.6em;
+}
+
+.onboarding-input-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+}
+
+/* Settings nudge gold line SVG overlay */
+.onboarding-gold-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9001;
+  pointer-events: none;
+}
+
+.onboarding-gold-line {
+  stroke: #C9A84C;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawLine 600ms ease forwards;
+}
+
+.onboarding-gold-circle {
+  stroke: #C9A84C;
+  stroke-width: 1.5;
+  fill: none;
+  opacity: 0;
+  animation: fadeInCircle 300ms ease 300ms forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInCircle {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Customization placeholder panel */
+.onboarding-custom-panel {
+  margin-top: 32px;
+  padding: 24px 32px;
+  background: rgba(186, 226, 218, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 12px;
+  text-align: center;
+  color: #c9c4bc;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.onboarding-save-btn {
+  margin-top: 20px;
+  padding: 10px 28px;
+  background: transparent;
+  border: 1px solid #C9A84C;
+  border-radius: 6px;
+  color: #C9A84C;
+  font-size: 0.95rem;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.onboarding-save-btn:hover {
+  background: rgba(201, 168, 76, 0.12);
+}
