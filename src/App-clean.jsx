@@ -141,7 +141,7 @@ const ChatPanel = () => {
     setInput('');
     setIsResponding(true);
     try {
-      const res = await fetch('/.netlify/functions/chat-simple', {
+      const res = await fetch('/.netlify/functions/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, settings, mode, spoons, userId: settings.name || 'default' }),
